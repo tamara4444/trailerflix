@@ -1,70 +1,56 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeaderContainer = styled.header`
-  background-color: #1a1625;
-  padding: 1rem 2rem;
+  background: rgba(19, 17, 27, 0.9);
+  backdrop-filter: blur(10px);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  padding: 1rem 2rem;
 `;
 
 const HeaderContent = styled.div`
+  max-width: 1200px;
+  margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 2000px;
-  margin: 0 auto;
   gap: 2rem;
 `;
 
-const Logo = styled(Link)`
+const Logo = styled.h1`
   margin: 0;
   font-size: 2rem;
   font-weight: 800;
-  background: linear-gradient(45deg, #9b6dff, #6e40c9);
+  background: linear-gradient(45deg, #9b6dff, #8257e6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-  text-decoration: none;
-  color: #9b6dff;
-
-  &:hover {
-    color: #8257e6;
-  }
 `;
 
 const Nav = styled.nav`
   display: flex;
   gap: 1rem;
-  align-items: center;
 `;
 
 const NavButton = styled(Link)`
-  background: ${props => props.active ? 
-    'linear-gradient(45deg, #6e40c9, #4c2889)' : 
-    'transparent'};
-  color: white;
-  padding: 0.8rem 1.5rem;
+  background: ${props => props.active ? '#9b6dff' : 'transparent'};
+  color: ${props => props.active ? 'white' : '#9b6dff'};
+  padding: 0.5rem 1rem;
   border-radius: 8px;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
   transition: all 0.3s ease;
-  border: 2px solid ${props => props.active ? 'transparent' : '#6e40c9'};
+  border: 2px solid #9b6dff;
 
   &:hover {
-    background: ${props => props.active ? 
-      'linear-gradient(45deg, #7b4ddb, #5934a3)' : 
-      'rgba(110, 64, 201, 0.1)'};
+    background: #8257e6;
+    color: white;
     transform: translateY(-2px);
-  }
-
-  &:active {
-    transform: translateY(0);
   }
 `;
 
@@ -74,10 +60,14 @@ const Header = () => {
   return (
     <HeaderContainer>
       <HeaderContent>
-        <Logo to="/">
-          TRAILERFLIX
-        </Logo>
+        <Logo>TRAILERFLIX</Logo>
         <Nav>
+          <NavButton 
+            to="/" 
+            active={location.pathname === '/' ? 1 : 0}
+          >
+            Home
+          </NavButton>
           <NavButton 
             to="/new-video" 
             active={location.pathname === '/new-video' ? 1 : 0}

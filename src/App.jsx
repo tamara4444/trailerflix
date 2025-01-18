@@ -4,19 +4,20 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
 import NewVideo from './pages/NewVideo/NewVideo';
+import './App.css';
 
 const AppContainer = styled.div`
   min-height: 100vh;
+  background-color: #13111b;
+  color: white;
   display: flex;
   flex-direction: column;
-  background-color: #141414;
 `;
 
 const MainContent = styled.main`
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 60px);
+  margin-top: 80px;
+  padding-bottom: 2rem;
 `;
 
 function App() {
