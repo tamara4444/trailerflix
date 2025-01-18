@@ -1,7 +1,6 @@
 const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["assets/Preview-BBu3j9iB.js","assets/react-vendor-COZB1mMV.js"])))=>i.map(i=>d[i]);
 import{a as e,b as t,u as r,g as n,c as o,d as i,r as a,e as s,B as l,R as c,f as d}from"./react-vendor-COZB1mMV.js";import{d as u,m as p,f}from"./styled-bESOtmG7.js";!function(){const e=document.createElement("link").relList;if(!(e&&e.supports&&e.supports("modulepreload"))){for(const e of document.querySelectorAll('link[rel="modulepreload"]'))t(e);new MutationObserver((e=>{for(const r of e)if("childList"===r.type)for(const e of r.addedNodes)"LINK"===e.tagName&&"modulepreload"===e.rel&&t(e)})).observe(document,{childList:!0,subtree:!0})}function t(e){if(e.ep)return;e.ep=!0;const t=function(e){const t={};return e.integrity&&(t.integrity=e.integrity),e.referrerPolicy&&(t.referrerPolicy=e.referrerPolicy),"use-credentials"===e.crossOrigin?t.credentials="include":"anonymous"===e.crossOrigin?t.credentials="omit":t.credentials="same-origin",t}(e);fetch(e.href,t)}}();var h,m,y={exports:{}},g={};var b,w=(m||(m=1,y.exports=function(){if(h)return g;h=1;var t=e(),r=Symbol.for("react.element"),n=Symbol.for("react.fragment"),o=Object.prototype.hasOwnProperty,i=t.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,a={key:!0,ref:!0,__self:!0,__source:!0};function s(e,t,n){var s,l={},c=null,d=null;for(s in void 0!==n&&(c=""+n),void 0!==t.key&&(c=""+t.key),void 0!==t.ref&&(d=t.ref),t)o.call(t,s)&&!a.hasOwnProperty(s)&&(l[s]=t[s]);if(e&&e.defaultProps)for(s in t=e.defaultProps)void 0===l[s]&&(l[s]=t[s]);return{$$typeof:r,type:e,key:c,ref:d,props:l,_owner:i.current}}return g.Fragment=n,g.jsx=s,g.jsxs=s,g}()),y.exports),x={};var v=function(){if(b)return x;b=1;var e=t();return x.createRoot=e.createRoot,x.hydrateRoot=e.hydrateRoot,x}();const O=u.header`
-  width: 100vw;
-  max-width: 100vw;
+  width: 100%;
   background: rgba(19, 17, 27, 0.95);
   backdrop-filter: blur(10px);
   padding: 1rem;
@@ -442,20 +441,19 @@ import{a as e,b as t,u as r,g as n,c as o,d as i,r as a,e as s,B as l,R as c,f a
   0%, 100% { transform: scale(1) rotate(0deg); }
   50% { transform: scale(1.2) rotate(15deg); }
 `;const on=u.div`
-  flex: 1;
   width: 100%;
   min-height: 100%;
   display: flex;
   flex-direction: column;
   background: #13111b;
-  position: relative;
+  overflow-x: hidden;
 `,an=u.section`
   width: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
   background: linear-gradient(135deg, #13111b 0%, #17151f 100%);
-  position: relative;
+  overflow-x: hidden;
 `,sn=u.div`
   width: 100%;
   height: 70vh;
@@ -826,37 +824,24 @@ import{a as e,b as t,u as r,g as n,c as o,d as i,r as a,e as s,B as l,R as c,f a
   }
 
   #root {
-    min-height: 100vh;
+    min-height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
     background: #13111b;
+    overflow-x: hidden;
   }
 `,Ln=u.div`
-  min-height: 100vh;
+  min-height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
   background: #13111b;
-  position: relative;
   overflow-x: hidden;
-
-  &::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: #13111b;
-    z-index: -1;
-  }
 `,Dn=u.main`
   flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
   background: #13111b;
-  position: relative;
+  overflow-x: hidden;
 `;function Un(){return w.jsxs(l,{basename:"/trailerflix",children:[w.jsx(Cn,{}),w.jsxs(Ln,{children:[w.jsx(R,{}),w.jsx(Dn,{children:w.jsxs(c,{children:[w.jsx(d,{path:"/",element:w.jsx(bn,{})}),w.jsx(d,{path:"/new-video",element:w.jsx(_n,{})}),w.jsx(d,{path:"/edit-video",element:w.jsx(_n,{})}),w.jsx(d,{path:"*",element:w.jsx(Navigate,{to:"/",replace:!0})})]})}),w.jsx(N,{})]})]})}v.createRoot(document.getElementById("root")).render(w.jsx(a.StrictMode,{children:w.jsx(Un,{})}));
-//# sourceMappingURL=index-Dl05YLet.js.map
+//# sourceMappingURL=index-BpLvtOVB.js.map
