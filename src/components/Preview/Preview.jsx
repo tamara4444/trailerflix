@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const PreviewContainer = styled.div`
@@ -68,6 +68,25 @@ const ButtonsContainer = styled.div`
   margin-top: 1rem;
 `;
 
+const EditLink = styled(Link)`
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  background: #9b6dff;
+  color: white;
+
+  &:hover {
+    background: #8257e6;
+  }
+`;
+
 const Button = styled.button`
   padding: 0.5rem 1rem;
   border: none;
@@ -78,14 +97,6 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-
-  &.edit {
-    background: #9b6dff;
-    color: white;
-    &:hover {
-      background: #8257e6;
-    }
-  }
 
   &.delete {
     background: transparent;
@@ -98,15 +109,10 @@ const Button = styled.button`
 `;
 
 function Preview({ video, onDelete }) {
-  const navigate = useNavigate();
   const { id, title, description, url, category } = video;
 
-  const handleEdit = () => {
-    console.log('Editando video con ID:', id); // Para debugging
-    navigate(`/edit/${id}`);
-  };
-
-  const handleDelete = () => {
+  const handleDelete = (e) => {
+    e.preventDefault();
     if (window.confirm('¿Estás seguro de que quieres eliminar este video?')) {
       onDelete(id);
     }
@@ -136,10 +142,10 @@ function Preview({ video, onDelete }) {
         <Title>{title}</Title>
         <Description>{description}</Description>
         <ButtonsContainer>
-          <Button className="edit" onClick={handleEdit}>
+          <EditLink to={`/edit/${id}`}>
             <span role="img" aria-label="edit">✏️</span>
             Editar
-          </Button>
+          </EditLink>
           <Button className="delete" onClick={handleDelete}>
             <span role="img" aria-label="delete">🗑️</span>
             Eliminar
