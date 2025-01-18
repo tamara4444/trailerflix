@@ -74,7 +74,7 @@ const Button = styled.button`
   border-radius: 4px;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -102,6 +102,7 @@ function Preview({ video, onDelete }) {
   const { id, title, description, url, category } = video;
 
   const handleEdit = () => {
+    console.log('Editando video con ID:', id); // Para debugging
     navigate(`/edit/${id}`);
   };
 
@@ -113,13 +114,17 @@ function Preview({ video, onDelete }) {
 
   // Función para extraer el ID del video de YouTube de una URL
   const getYouTubeVideoId = (url) => {
+    if (!url) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
     const match = url.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
   };
 
   // Generar la URL de la miniatura de YouTube
-  const thumbnailUrl = `https://img.youtube.com/vi/${getYouTubeVideoId(url)}/maxresdefault.jpg`;
+  const videoId = getYouTubeVideoId(url);
+  const thumbnailUrl = videoId 
+    ? `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`
+    : 'https://via.placeholder.com/640x360?text=Video+no+disponible';
 
   return (
     <PreviewContainer>

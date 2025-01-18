@@ -15,6 +15,20 @@ const Title = styled.h2`
   font-size: 2rem;
 `;
 
+const ErrorMessage = styled.div`
+  color: #ff6b6b;
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+`;
+
+const LoadingMessage = styled.div`
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.2rem;
+`;
+
 function EditVideo() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -23,32 +37,35 @@ function EditVideo() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchVideo = async () => {
+    const fetchVideo = () => {
       try {
-        // Aquí deberías hacer la llamada a tu API para obtener los detalles del video
-        // Por ahora usaremos localStorage como ejemplo
+        console.log('Buscando video con ID:', id); // Para debugging
         const videos = JSON.parse(localStorage.getItem('videos') || '[]');
         const videoData = videos.find(v => v.id === id);
         
         if (videoData) {
+          console.log('Video encontrado:', videoData); // Para debugging
           setVideo(videoData);
         } else {
+          console.log('Video no encontrado'); // Para debugging
           setError('Video no encontrado');
         }
       } catch (err) {
+        console.error('Error al cargar el video:', err); // Para debugging
         setError('Error al cargar el video');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchVideo();
+    if (id) {
+      fetchVideo();
+    }
   }, [id]);
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = (formData) => {
     try {
-      // Aquí deberías hacer la llamada a tu API para actualizar el video
-      // Por ahora actualizaremos en localStorage
+      console.log('Actualizando video:', formData); // Para debugging
       const videos = JSON.parse(localStorage.getItem('videos') || '[]');
       const updatedVideos = videos.map(v => 
         v.id === id ? { ...v, ...formData } : v
@@ -57,6 +74,7 @@ function EditVideo() {
       localStorage.setItem('videos', JSON.stringify(updatedVideos));
       navigate('/');
     } catch (err) {
+      console.error('Error al actualizar el video:', err); // Para debugging
       setError('Error al actualizar el video');
     }
   };
@@ -66,11 +84,27 @@ function EditVideo() {
   };
 
   if (loading) {
-    return <div>Cargando...</div>;
+    return (
+      <EditContainer>
+        <LoadingMessage>Cargando...</LoadingMessage>
+      </EditContainer>
+    );
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <EditContainer>
+        <ErrorMessage>{error}</ErrorMessage>
+      </EditContainer>
+    );
+  }
+
+  if (!video) {
+    return (
+      <EditContainer>
+        <ErrorMessage>Video no encontrado</ErrorMessage>
+      </EditContainer>
+    );
   }
 
   return (
