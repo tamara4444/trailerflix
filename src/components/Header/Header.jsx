@@ -1,83 +1,66 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeaderContainer = styled.header`
-  background: rgba(19, 17, 27, 0.9);
-  backdrop-filter: blur(10px);
+  background: rgba(19, 17, 27, 0.95);
+  padding: 1rem 2rem;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  padding: 1rem 2rem;
+  backdrop-filter: blur(10px);
 `;
 
-const HeaderContent = styled.div`
+const Nav = styled.nav`
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 2rem;
 `;
 
-const Logo = styled.h1`
-  margin: 0;
-  font-size: 2rem;
-  font-weight: 800;
-  background: linear-gradient(45deg, #9b6dff, #8257e6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+const Logo = styled(Link)`
+  color: #9b6dff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  
+  &:hover {
+    color: #8257e6;
+  }
 `;
 
-const Nav = styled.nav`
+const NavLinks = styled.div`
   display: flex;
   gap: 1rem;
 `;
 
-const NavButton = styled(Link)`
-  background: ${props => props.active ? '#9b6dff' : 'transparent'};
-  color: ${props => props.active ? 'white' : '#9b6dff'};
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
+const NavLink = styled(Link)`
+  color: white;
   text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  border: 2px solid #9b6dff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s;
 
   &:hover {
-    background: #8257e6;
-    color: white;
-    transform: translateY(-2px);
+    background-color: rgba(155, 109, 255, 0.1);
   }
 `;
 
-const Header = () => {
-  const location = useLocation();
-
+function Header() {
   return (
     <HeaderContainer>
-      <HeaderContent>
-        <Logo>TRAILERFLIX</Logo>
-        <Nav>
-          <NavButton 
-            to="/" 
-            active={location.pathname === '/' ? 1 : 0}
-          >
-            Home
-          </NavButton>
-          <NavButton 
-            to="/new-video" 
-            active={location.pathname === '/new-video' ? 1 : 0}
-          >
-            Nuevo Video
-          </NavButton>
-        </Nav>
-      </HeaderContent>
+      <Nav>
+        <Logo to="/">TRÁILERFLIX</Logo>
+        <NavLinks>
+          <NavLink to="/">Inicio</NavLink>
+          <NavLink to="/new">Nuevo Video</NavLink>
+        </NavLinks>
+      </Nav>
     </HeaderContainer>
   );
-};
+}
 
 export default Header;
