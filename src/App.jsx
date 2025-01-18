@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -21,15 +21,15 @@ const MainContent = styled.main`
 
 function App() {
   return (
-    <Router>
+    <Router basename="/trailerflix">
       <AppContainer>
         <Header />
         <MainContent>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/new" element={<NewVideo />} />
             <Route path="/new-video" element={<NewVideo />} />
             <Route path="/edit-video" element={<NewVideo />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </MainContent>
         <Footer />
