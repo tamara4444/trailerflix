@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
 import NewVideo from './pages/NewVideo/NewVideo';
+import EditVideo from './pages/EditVideo/EditVideo';
 
 const AppContainer = styled.div`
   display: flex;
@@ -29,6 +30,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/new" element={<NewVideo />} />
+            <Route path="/edit/:id" element={<EditVideo />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </MainContent>
