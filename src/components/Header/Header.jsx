@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const HeaderContainer = styled.header`
@@ -22,7 +22,7 @@ const HeaderContent = styled.div`
   gap: 2rem;
 `;
 
-const Logo = styled.h1`
+const Logo = styled(Link)`
   margin: 0;
   font-size: 2rem;
   font-weight: 800;
@@ -30,6 +30,12 @@ const Logo = styled.h1`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+  text-decoration: none;
+  color: #9b6dff;
+
+  &:hover {
+    color: #8257e6;
+  }
 `;
 
 const Nav = styled.nav`
@@ -68,17 +74,13 @@ const Header = () => {
   return (
     <HeaderContainer>
       <HeaderContent>
-        <Logo>TRAILERFLIX</Logo>
+        <Logo to="/">
+          TRAILERFLIX
+        </Logo>
         <Nav>
           <NavButton 
-            to="/" 
-            active={location.pathname === '/' ? 1 : 0}
-          >
-            Home
-          </NavButton>
-          <NavButton 
-            to="/new" 
-            active={location.pathname === '/new' ? 1 : 0}
+            to="/new-video" 
+            active={location.pathname === '/new-video' ? 1 : 0}
           >
             Nuevo Video
           </NavButton>
