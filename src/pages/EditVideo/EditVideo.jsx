@@ -37,45 +37,44 @@ function EditVideo() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchVideo = () => {
+    const loadVideo = () => {
       try {
-        console.log('Buscando video con ID:', id); // Para debugging
+        console.log('Cargando video con ID:', id);
         const videos = JSON.parse(localStorage.getItem('videos') || '[]');
-        const videoData = videos.find(v => v.id === id);
+        const foundVideo = videos.find(v => v.id === id);
         
-        if (videoData) {
-          console.log('Video encontrado:', videoData); // Para debugging
-          setVideo(videoData);
+        if (foundVideo) {
+          console.log('Video encontrado:', foundVideo);
+          setVideo(foundVideo);
         } else {
-          console.log('Video no encontrado'); // Para debugging
-          setError('Video no encontrado');
+          console.log('Video no encontrado para ID:', id);
+          setError('No se encontró el video');
         }
       } catch (err) {
-        console.error('Error al cargar el video:', err); // Para debugging
+        console.error('Error al cargar el video:', err);
         setError('Error al cargar el video');
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchVideo();
-    }
+    loadVideo();
   }, [id]);
 
   const handleSubmit = (formData) => {
     try {
-      console.log('Actualizando video:', formData); // Para debugging
+      console.log('Actualizando video con datos:', formData);
       const videos = JSON.parse(localStorage.getItem('videos') || '[]');
       const updatedVideos = videos.map(v => 
-        v.id === id ? { ...v, ...formData } : v
+        v.id === id ? { ...v, ...formData, updatedAt: new Date().toISOString() } : v
       );
       
       localStorage.setItem('videos', JSON.stringify(updatedVideos));
+      console.log('Video actualizado exitosamente');
       navigate('/');
     } catch (err) {
-      console.error('Error al actualizar el video:', err); // Para debugging
-      setError('Error al actualizar el video');
+      console.error('Error al actualizar el video:', err);
+      setError('Error al guardar los cambios');
     }
   };
 
@@ -86,7 +85,7 @@ function EditVideo() {
   if (loading) {
     return (
       <EditContainer>
-        <LoadingMessage>Cargando...</LoadingMessage>
+        <LoadingMessage>Cargando video...</LoadingMessage>
       </EditContainer>
     );
   }
@@ -102,7 +101,7 @@ function EditVideo() {
   if (!video) {
     return (
       <EditContainer>
-        <ErrorMessage>Video no encontrado</ErrorMessage>
+        <ErrorMessage>No se encontró el video</ErrorMessage>
       </EditContainer>
     );
   }
