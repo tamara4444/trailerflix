@@ -1,5 +1,5 @@
 import React from 'react';
-import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -31,7 +31,6 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/new" element={<NewVideo />} />
             <Route path="/edit/:id" element={<EditVideo />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </MainContent>
         <Footer />
