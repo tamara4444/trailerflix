@@ -147,7 +147,7 @@ const Footer = () => {
       </FooterContent>
       
       <Copyright>
-        {new Date().getFullYear()} Trailerflix. Todos los derechos reservados.
+        {new Date().getFullYear()} Trailerflix. Todos los derechos reservados. - Creado por Tmara Flores Burgos - Challenge Alura ONE
       </Copyright>
     </FooterContainer>
   );
