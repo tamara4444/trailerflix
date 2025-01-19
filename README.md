@@ -26,7 +26,7 @@ TrailerFlix es una aplicación web moderna desarrollada con React y Vite que per
 
 1. Clona el repositorio:
 ```bash
-git clone https://github.com/yourusername/trailerflix.git
+git clone https://github.com/tamara4444/trailerflix.git
 cd trailerflix
 ```
 
@@ -43,13 +43,73 @@ npm run dev
 ## Estructura del Proyecto
 
 ```
-src/
-├── components/           # Componentes reutilizables
-├── pages/               # Páginas principales
-├── config/              # Configuraciones
-├── assets/              # Recursos estáticos
-└── App.jsx             # Componente principal
+trailerflix/
+├── public/                    # Archivos públicos estáticos
+│   ├── images/               # Imágenes y recursos
+│   │   └── cinema-pattern.png
+│   ├── 404.html             # Página de error 404
+│   ├── logo.svg             # Logo de la aplicación
+│   └── vite.svg             # Logo de Vite
+│
+├── src/                      # Código fuente principal
+│   ├── components/          # Componentes reutilizables
+│   │   ├── Footer/         # Pie de página
+│   │   │   ├── Footer.jsx  # Versión completa del footer
+│   │   │   └── Footer2.jsx # Versión simplificada
+│   │   ├── FullscreenVideo/# Componente de video en pantalla completa
+│   │   ├── Header/         # Encabezado de la aplicación
+│   │   ├── Modal/          # Componente modal genérico
+│   │   ├── Preview/        # Vista previa de videos
+│   │   ├── VideoCard/      # Tarjeta de presentación de video
+│   │   ├── VideoForm/      # Formulario para crear/editar videos
+│   │   ├── VideoModal/     # Modal para reproducción de videos
+│   │   └── VideoPlayer/    # Reproductor de video personalizado
+│   │
+│   ├── pages/              # Páginas principales de la aplicación
+│   │   ├── EditVideo/      # Página de edición de video
+│   │   ├── Home/           # Página principal
+│   │   └── NewVideo/       # Página para agregar nuevo video
+│   │
+│   ├── config/             # Configuraciones
+│   │   └── api.js         # Configuración de la API
+│   │
+│   ├── assets/            # Recursos estáticos
+│   │   └── react.svg      # Logo de React
+│   │
+│   ├── App.jsx           # Componente principal
+│   ├── App.css           # Estilos principales
+│   ├── index.css         # Estilos globales
+│   └── main.jsx         # Punto de entrada de la aplicación
+│
+├── package.json          # Dependencias y scripts
+├── package-lock.json     # Versiones exactas de dependencias
+├── vite.config.js       # Configuración de Vite
+├── eslint.config.js     # Configuración de ESLint
+└── README.md            # Documentación del proyecto
 ```
+
+## MockAPI
+
+Este proyecto utiliza MockAPI como backend simulado para almacenar y gestionar los datos de los videos. La implementación incluye:
+
+- **Endpoint**: `[ttps://6780d27b85151f714b080be6.mockapi.io/videos/videos]`
+- **Operaciones CRUD**:
+  - GET: Obtener lista de videos
+  - POST: Crear nuevo video
+  - PUT: Actualizar video existente
+  - DELETE: Eliminar video
+
+La configuración de la API se encuentra en `src/config/api.js`
+
+## Galería
+
+### Interfaz de Usuario
+
+- Vista Principal (Home)
+- Formulario de Edición de Videos
+- Reproductor de Video
+- Nuevo Video
+- Footer
 
 ## Uso
 
