@@ -380,9 +380,14 @@ const Home = () => {
   const fetchVideos = async () => {
     try {
       const response = await axios.get(API_URL);
-      setVideos(response.data);
+      const videosData = response.data;
+      localStorage.setItem('videos', JSON.stringify(videosData));
+      setVideos(videosData);
     } catch (error) {
       console.error('Error fetching videos:', error);
+      // Intentar cargar desde localStorage si la API falla
+      const localVideos = JSON.parse(localStorage.getItem('videos') || '[]');
+      setVideos(localVideos);
     }
   };
 
@@ -398,7 +403,7 @@ const Home = () => {
   };
 
   const handleEdit = (video) => {
-    navigate('/new-video', { state: { editVideo: video } });
+    navigate(`/edit/${video.id}`);
   };
 
   const handleDelete = async (videoId) => {
@@ -449,6 +454,13 @@ const Home = () => {
           <PlayIcon>▶</PlayIcon>
         </BannerVideoContainer>
       </Banner>
+
+      {isPlaying && (
+        <VideoModal
+          video={bannerVideo}
+          onClose={() => setIsPlaying(false)}
+        />
+      )}
 
       <ContentWrapper>
         <CategoryNav>

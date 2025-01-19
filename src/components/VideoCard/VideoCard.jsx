@@ -128,7 +128,7 @@ const VideoCard = ({ video, onPlay, onDelete }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const handleEdit = () => {
-    navigate('/edit-video', { state: { editVideo: video } });
+    navigate(`/edit/${video.id}`);
   };
 
   const handleDelete = (e) => {

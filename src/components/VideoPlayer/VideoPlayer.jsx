@@ -168,7 +168,9 @@ const VideoPlayer = ({ url, playing = false, controls = true, muted = true, ligh
                   showinfo: 0,
                   rel: 0,
                   iv_load_policy: 3,
-                  origin: window.location.origin
+                  origin: window.location.origin,
+                  enablejsapi: 1,
+                  autoplay: 1
                 }
               }
             }}

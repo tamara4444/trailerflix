@@ -171,7 +171,13 @@ function VideoForm({ video, onSubmit, onCancel }) {
     
     if (Object.keys(newErrors).length === 0) {
       console.log('Submitting form data:', formData); // Debug log
-      onSubmit(formData);
+      // Preservar el ID y otros campos importantes del video original
+      const updatedData = {
+        ...formData,
+        id: video.id,
+        createdAt: video.createdAt
+      };
+      onSubmit(updatedData);
     } else {
       setErrors(newErrors);
     }

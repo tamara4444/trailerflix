@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import VideoForm from '../../components/VideoForm/VideoForm';
+import axios from 'axios';
+import { API_URL } from '../../config/api';
 
 const EditContainer = styled.div`
   padding: 2rem;
@@ -61,15 +63,30 @@ function EditVideo() {
     loadVideo();
   }, [id]);
 
-  const handleSubmit = (formData) => {
+  const handleSubmit = async (formData) => {
     try {
       console.log('Actualizando video con datos:', formData);
+      
+      // Actualizar en localStorage
       const videos = JSON.parse(localStorage.getItem('videos') || '[]');
       const updatedVideos = videos.map(v => 
-        v.id === id ? { ...v, ...formData, updatedAt: new Date().toISOString() } : v
+        v.id === id ? { 
+          ...v, 
+          ...formData,
+          updatedAt: new Date().toISOString()
+        } : v
       );
-      
       localStorage.setItem('videos', JSON.stringify(updatedVideos));
+      
+      // Actualizar en la API
+      try {
+        const videoToUpdate = updatedVideos.find(v => v.id === id);
+        await axios.put(`${API_URL}/${id}`, videoToUpdate);
+      } catch (apiError) {
+        console.error('Error al actualizar en la API:', apiError);
+        // Continuamos aunque falle la API, ya que tenemos los datos en localStorage
+      }
+
       console.log('Video actualizado exitosamente');
       navigate('/');
     } catch (err) {

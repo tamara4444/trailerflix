@@ -76,7 +76,13 @@ const VideoModal = ({ video, onClose }) => {
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={e => e.stopPropagation()}>
         <CloseButton onClick={onClose}>&times;</CloseButton>
-        <VideoPlayer url={video.url} />
+        <VideoPlayer 
+          url={video.url} 
+          playing={true}
+          controls={true}
+          muted={false}
+          light={false}
+        />
         <VideoInfo>
           <Title>{video.title}</Title>
           <Description>{video.description}</Description>
