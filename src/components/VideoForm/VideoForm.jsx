@@ -112,7 +112,7 @@ function VideoForm({ video, onSubmit, onCancel }) {
     title: '',
     description: '',
     url: '',
-    category: 'película'
+    category: video?.category || 'película'
   });
 
   const [errors, setErrors] = useState({});
@@ -230,8 +230,10 @@ function VideoForm({ video, onSubmit, onCancel }) {
         >
           <option value="película">Película</option>
           <option value="serie">Serie</option>
+          <option value="anime">Anime</option>
           <option value="documental">Documental</option>
         </Select>
+        {errors.category && <ErrorMessage>{errors.category}</ErrorMessage>}
       </FormGroup>
 
       <ButtonGroup>

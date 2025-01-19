@@ -363,7 +363,7 @@ const Home = () => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const categories = ['Películas', 'Series', 'Documentales', 'Anime'];
+  const categories = ['Películas', 'Series', 'Anime', 'Documentales'];
   const [isPlaying, setIsPlaying] = useState(false);
   const categoryRefs = useRef({});
   const [bannerVideo] = useState({
