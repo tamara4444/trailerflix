@@ -11,6 +11,7 @@ TrailerFlix es una aplicación web moderna desarrollada con React y Vite que per
 - Persistencia de datos local y en la nube
 - Interfaz de usuario moderna y atractiva
 - Rendimiento optimizado
+- Responsividad
 
 ## Tecnologías Utilizadas
 
@@ -106,10 +107,19 @@ La configuración de la API se encuentra en `src/config/api.js`
 ### Interfaz de Usuario
 
 - Vista Principal (Home)
+  ![](https://res.cloudinary.com/dg7dgtg0j/image/upload/v1737268392/HOME_oweimz.png)
 - Formulario de Edición de Videos
+  ![](https://res.cloudinary.com/dg7dgtg0j/image/upload/v1737268391/EDIT_rr8sva.png)
 - Reproductor de Video
+  ![](https://res.cloudinary.com/dg7dgtg0j/image/upload/v1737268592/VIDEO_a87kli.png)
 - Nuevo Video
+  ![](https://res.cloudinary.com/dg7dgtg0j/image/upload/v1737268391/NEW_aeagxa.png)
 - Footer
+  ![](https://res.cloudinary.com/dg7dgtg0j/image/upload/v1737268391/FOOTER_u3oftz.png)
+- General
+  ![](https://res.cloudinary.com/dg7dgtg0j/image/upload/v1737268392/trai2_wittex.jpg)
+- Card
+  ![](https://res.cloudinary.com/dg7dgtg0j/image/upload/v1737268391/DES_iaihqa.png)
 
 ## Uso
 
@@ -138,3 +148,8 @@ La configuración de la API se encuentra en `src/config/api.js`
 
 ## NOTA
 Proyecto correspondiente a challenge de curso Alura ONE.
+
+## 🚀 Deploy
+
+La aplicación está disponible en el siguiente enlace:  
+[TrailerFlix - Ver ](https://tamara4444.github.io/trailerflix/#/)
