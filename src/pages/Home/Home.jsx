@@ -363,8 +363,9 @@ const Home = () => {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const categories = ['Películas', 'Series', 'Anime', 'Documentales'];
+  const categories = ['Películas', 'Series', 'Documentales', 'Anime'];
   const [isPlaying, setIsPlaying] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
   const categoryRefs = useRef({});
   const [bannerVideo] = useState({
     url: 'https://www.youtube.com/watch?v=O6JxZxIzRGc',
@@ -373,32 +374,32 @@ const Home = () => {
     thumbnail: 'https://i.ytimg.com/vi/O6JxZxIzRGc/maxresdefault.jpg'
   });
 
+  const fetchVideos = async () => {
+    try {
+      console.log('Fetching videos...');
+      const response = await axios.get(API_URL);
+      const apiVideos = response.data;
+      console.log('API Videos:', apiVideos);
+
+      // Asegurarnos de que todos los videos tengan una categoría válida
+      const validatedVideos = apiVideos.map(video => ({
+        ...video,
+        category: categories.find(c => c.toLowerCase() === (video.category || '').toLowerCase()) || 'Películas'
+      }));
+
+      setVideos(validatedVideos);
+      localStorage.setItem('videos', JSON.stringify(validatedVideos));
+    } catch (error) {
+      console.error('Error fetching videos:', error);
+      // Intentar cargar desde localStorage si la API falla
+      const localVideos = JSON.parse(localStorage.getItem('videos') || '[]');
+      setVideos(localVideos);
+    }
+  };
+
   useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        console.log('Fetching videos...');
-        const response = await axios.get(API_URL);
-        const apiVideos = response.data;
-        console.log('API Videos:', apiVideos);
-
-        // Asegurarnos de que todos los videos tengan una categoría válida
-        const validatedVideos = apiVideos.map(video => ({
-          ...video,
-          category: categories.find(c => c.toLowerCase() === (video.category || '').toLowerCase()) || 'Películas'
-        }));
-
-        setVideos(validatedVideos);
-        localStorage.setItem('videos', JSON.stringify(validatedVideos));
-      } catch (error) {
-        console.error('Error fetching videos:', error);
-        // Intentar cargar desde localStorage si la API falla
-        const localVideos = JSON.parse(localStorage.getItem('videos') || '[]');
-        setVideos(localVideos);
-      }
-    };
-
     fetchVideos();
-  }, []);
+  }, [refreshKey]);
 
   const filteredVideos = useMemo(() => {
     return videos.filter(video => {
@@ -427,9 +428,23 @@ const Home = () => {
   const handleDelete = async (videoId) => {
     try {
       await axios.delete(`${API_URL}/${videoId}`);
-      await fetchVideos();
+      
+      // Actualizar el estado local inmediatamente
+      setVideos(prevVideos => prevVideos.filter(v => v.id !== videoId));
+      
+      // Actualizar localStorage
+      const updatedVideos = JSON.parse(localStorage.getItem('videos') || '[]')
+        .filter(v => v.id !== videoId);
+      localStorage.setItem('videos', JSON.stringify(updatedVideos));
+      
+      // Forzar una actualización desde la API
+      setRefreshKey(prev => prev + 1);
+      
+      console.log('Video eliminado exitosamente');
     } catch (error) {
-      console.error('Error deleting video:', error);
+      console.error('Error al eliminar el video:', error);
+      // Si hay un error, recargar los videos para asegurar consistencia
+      fetchVideos();
     }
   };
 
