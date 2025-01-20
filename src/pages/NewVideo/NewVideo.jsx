@@ -193,12 +193,28 @@ const NewVideo = () => {
       if (editVideo) {
         await axios.put(`${API_URL}/${editVideo.id}`, formData);
       } else {
-        await axios.post(API_URL, formData);
+        const newVideo = {
+          ...formData,
+          id: Date.now().toString(),
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString()
+        };
+
+        const response = await axios.post(API_URL, newVideo);
+        console.log('Video creado exitosamente en la API:', response.data);
+
+        const videos = JSON.parse(localStorage.getItem('videos') || '[]');
+        videos.push(newVideo);
+        localStorage.setItem('videos', JSON.stringify(videos));
+
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        console.log('Video creado exitosamente');
+        navigate('/', { state: { refresh: Date.now() } });
       }
-      navigate('/');
-    } catch (error) {
-      console.error('Error:', error);
-      setError('Error al guardar el video. Por favor, intenta de nuevo.');
+    } catch (err) {
+      console.error('Error al crear el video:', err);
+      setError('Error al crear el video. Por favor, intenta de nuevo.');
     } finally {
       setIsLoading(false);
     }

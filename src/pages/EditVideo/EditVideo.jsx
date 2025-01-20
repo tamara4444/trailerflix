@@ -67,31 +67,31 @@ function EditVideo() {
     try {
       console.log('Actualizando video con datos:', formData);
       
-      // Actualizar en localStorage
+      // Actualizar en la API primero
+      const videoToUpdate = {
+        ...formData,
+        id,
+        updatedAt: new Date().toISOString()
+      };
+      
+      await axios.put(`${API_URL}/${id}`, videoToUpdate);
+      console.log('Video actualizado exitosamente en la API');
+      
+      // Actualizar en localStorage después de éxito en la API
       const videos = JSON.parse(localStorage.getItem('videos') || '[]');
       const updatedVideos = videos.map(v => 
-        v.id === id ? { 
-          ...v, 
-          ...formData,
-          updatedAt: new Date().toISOString()
-        } : v
+        v.id === id ? videoToUpdate : v
       );
       localStorage.setItem('videos', JSON.stringify(updatedVideos));
       
-      // Actualizar en la API
-      try {
-        const videoToUpdate = updatedVideos.find(v => v.id === id);
-        await axios.put(`${API_URL}/${id}`, videoToUpdate);
-      } catch (apiError) {
-        console.error('Error al actualizar en la API:', apiError);
-        // Continuamos aunque falle la API, ya que tenemos los datos en localStorage
-      }
-
+      // Esperar un momento antes de redirigir
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
       console.log('Video actualizado exitosamente');
-      navigate('/');
+      navigate('/', { state: { refresh: Date.now() } });
     } catch (err) {
       console.error('Error al actualizar el video:', err);
-      setError('Error al guardar los cambios');
+      setError('Error al guardar los cambios. Por favor, intenta de nuevo.');
     }
   };
 

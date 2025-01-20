@@ -106,25 +106,30 @@ const ErrorMessage = styled.span`
 `;
 
 function VideoForm({ video, onSubmit, onCancel }) {
-  console.log('VideoForm props:', { video, onSubmit, onCancel }); // Debug log
+  console.log('VideoForm props:', { video, onSubmit, onCancel });
+
+  const categories = ['Películas', 'Series', 'Documentales', 'Anime'];
 
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     url: '',
-    category: video?.category || 'película'
+    category: video?.category || 'Películas'
   });
 
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    console.log('VideoForm useEffect - video:', video); // Debug log
+    console.log('VideoForm useEffect - video:', video);
     if (video) {
+      // Asegurarnos de que la categoría sea válida
+      const category = categories.find(c => c.toLowerCase() === (video.category || '').toLowerCase()) || 'Películas';
+      
       setFormData({
         title: video.title || '',
         description: video.description || '',
         url: video.url || '',
-        category: video.category || 'película'
+        category
       });
     }
   }, [video]);
@@ -165,22 +170,23 @@ function VideoForm({ video, onSubmit, onCancel }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Submitting form data:', formData);
+
     const newErrors = validateForm();
-    
-    if (Object.keys(newErrors).length === 0) {
-      console.log('Submitting form data:', formData); // Debug log
-      // Preservar el ID y otros campos importantes del video original
-      const updatedData = {
-        ...formData,
-        id: video.id,
-        createdAt: video.createdAt
-      };
-      onSubmit(updatedData);
-    } else {
+    if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      return;
     }
+
+    // Asegurarnos de que la categoría sea válida antes de enviar
+    const category = categories.find(c => c.toLowerCase() === formData.category.toLowerCase()) || 'Películas';
+    
+    onSubmit({
+      ...formData,
+      category
+    });
   };
 
   return (
@@ -227,11 +233,11 @@ function VideoForm({ video, onSubmit, onCancel }) {
           name="category"
           value={formData.category}
           onChange={handleChange}
+          required
         >
-          <option value="película">Película</option>
-          <option value="serie">Serie</option>
-          <option value="anime">Anime</option>
-          <option value="documental">Documental</option>
+          {categories.map(category => (
+            <option key={category} value={category}>{category}</option>
+          ))}
         </Select>
         {errors.category && <ErrorMessage>{errors.category}</ErrorMessage>}
       </FormGroup>

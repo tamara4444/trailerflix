@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import styled, { keyframes } from 'styled-components';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -374,22 +374,40 @@ const Home = () => {
   });
 
   useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        console.log('Fetching videos...');
+        const response = await axios.get(API_URL);
+        const apiVideos = response.data;
+        console.log('API Videos:', apiVideos);
+
+        // Asegurarnos de que todos los videos tengan una categoría válida
+        const validatedVideos = apiVideos.map(video => ({
+          ...video,
+          category: categories.find(c => c.toLowerCase() === (video.category || '').toLowerCase()) || 'Películas'
+        }));
+
+        setVideos(validatedVideos);
+        localStorage.setItem('videos', JSON.stringify(validatedVideos));
+      } catch (error) {
+        console.error('Error fetching videos:', error);
+        // Intentar cargar desde localStorage si la API falla
+        const localVideos = JSON.parse(localStorage.getItem('videos') || '[]');
+        setVideos(localVideos);
+      }
+    };
+
     fetchVideos();
   }, []);
 
-  const fetchVideos = async () => {
-    try {
-      const response = await axios.get(API_URL);
-      const videosData = response.data;
-      localStorage.setItem('videos', JSON.stringify(videosData));
-      setVideos(videosData);
-    } catch (error) {
-      console.error('Error fetching videos:', error);
-      // Intentar cargar desde localStorage si la API falla
-      const localVideos = JSON.parse(localStorage.getItem('videos') || '[]');
-      setVideos(localVideos);
-    }
-  };
+  const filteredVideos = useMemo(() => {
+    return videos.filter(video => {
+      const matchesCategory = !selectedCategory || 
+        video.category.toLowerCase() === selectedCategory.toLowerCase();
+      
+      return matchesCategory;
+    });
+  }, [videos, selectedCategory]);
 
   const scrollToCategory = (category) => {
     const element = document.getElementById(category.toLowerCase());
@@ -416,14 +434,14 @@ const Home = () => {
   };
 
   const renderVideosByCategory = (category) => {
-    const filteredVideos = videos.filter(video => video.category === category);
-    if (filteredVideos.length === 0) return null;
+    const filteredVideosByCategory = filteredVideos.filter(video => video.category === category);
+    if (filteredVideosByCategory.length === 0) return null;
 
     return (
       <div id={category.toLowerCase()} key={category} style={{ scrollMarginTop: '100px' }}>
         <CategoryTitle>{category}</CategoryTitle>
         <VideoGrid>
-          {filteredVideos.map(video => (
+          {filteredVideosByCategory.map(video => (
             <VideoCard
               key={video.id}
               video={video}
