@@ -146,6 +146,10 @@ La configuración de la API se encuentra en `src/config/api.js`
 
 - Inspirado en Netflix y otras plataformas de streaming
 
+## Consideraciones
+
+**Card Estática:** Para asegurar que la página no se quede vacía mientras se esperan datos de la API, se ha incluido una card estática como marcador de posición. (La primera de categoria peliculas).
+
 ## NOTA
 Proyecto correspondiente a challenge de curso Alura ONE.
 
