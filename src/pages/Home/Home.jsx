@@ -427,24 +427,40 @@ const Home = () => {
 
   const handleDelete = async (videoId) => {
     try {
-      await axios.delete(`${API_URL}/${videoId}`);
-      
-      // Actualizar el estado local inmediatamente
+      // Actualizar el estado local inmediatamente para feedback instantáneo
       setVideos(prevVideos => prevVideos.filter(v => v.id !== videoId));
       
-      // Actualizar localStorage
+      // Actualizar localStorage inmediatamente
       const updatedVideos = JSON.parse(localStorage.getItem('videos') || '[]')
         .filter(v => v.id !== videoId);
       localStorage.setItem('videos', JSON.stringify(updatedVideos));
       
-      // Forzar una actualización desde la API
-      setRefreshKey(prev => prev + 1);
+      // Intentar eliminar en la API
+      const response = await axios.delete(`${API_URL}/${videoId}`);
       
-      console.log('Video eliminado exitosamente');
+      if (response.status === 200) {
+        console.log('Video eliminado exitosamente de la API');
+      } else {
+        throw new Error('Error al eliminar el video de la API');
+      }
+      
+      // Esperar un momento antes de recargar los datos
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      // Recargar datos de la API para asegurar sincronización
+      await fetchVideos();
+      
     } catch (error) {
       console.error('Error al eliminar el video:', error);
-      // Si hay un error, recargar los videos para asegurar consistencia
-      fetchVideos();
+      
+      // Revertir cambios locales si hay error en la API
+      const originalVideos = JSON.parse(localStorage.getItem('videos') || '[]');
+      setVideos(originalVideos);
+      
+      // Intentar recargar datos de la API
+      setTimeout(() => {
+        fetchVideos();
+      }, 1000);
     }
   };
 
